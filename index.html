@@ -5,8 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Assem Wish-list</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-database-compat.js"></script>
+
 <style>
-/* Стили оставляем те же, что были в вашем файле index.html */
 :root {
   --cream:#faf7f2; --warm:#f0e9de; --gold:#c9a84c; --gold-light:#e8d5a3;
   --dark:#1a1612; --mid:#5c4f3d; --soft:#9e8c76; --accent:#d4614b; --border:#e0d5c5;
@@ -34,7 +36,7 @@ header h1 em{color:var(--gold);font-style:italic;}
 .totals-bar .total-label{color:var(--soft);}
 .totals-bar .total-val{font-weight:600;color:var(--dark);}
 
-/* Таблица и карточки — берем из вашего файла */
+/* ── TABLE ── */
 .wishlist-table{width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:12px;
   overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.04);border:1px solid var(--border);}
 thead tr{background:var(--dark);}
@@ -60,14 +62,14 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   display:inline-flex;align-items:center;justify-content:center;transition:all .2s;background:white;}
 .custom-check.done{background:var(--gold);border-color:var(--gold);color:white;font-size:11px;}
 
-/* Мобильный вид */
+/* ── MOBILE CARDS ── */
 .card-list{display:none;flex-direction:column;gap:12px;}
 .card{background:white;border-radius:14px;padding:16px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05);}
 .card-top{display:flex;gap:12px;}
-.card-img{width:72px;height:72px;border-radius:10px;border:1.5px dashed var(--border);overflow:hidden;flex-shrink:0;}
+.card-img{width:72px;height:72px;border-radius:10px;border:1.5px dashed var(--border);overflow:hidden;flex-shrink:0; display:flex; align-items:center; justify-content:center; background:var(--cream); cursor:pointer;}
 .card-img img{width:100%;height:100%;object-fit:cover;}
 
-/* Модалки */
+/* ── MODALS ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,22,18,.7);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
 .modal{background:white;border-radius:16px;width:min(640px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;}
@@ -84,11 +86,14 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .edit-form{padding:20px;display:flex;flex-direction:column;gap:15px;}
 .form-row{display:flex;flex-direction:column;gap:5px;}
 .form-row label{font-size:11px;text-transform:uppercase;color:var(--soft);font-weight:600;}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
 
 @media(max-width:640px){
   .wishlist-table{display:none;}
   .card-list{display:flex;}
 }
+
+#loader { text-align:center; padding: 40px; color: var(--soft); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -104,7 +109,9 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     <button class="btn btn-primary" onclick="addRow()">+ Добавить</button>
   </div>
 
-  <table class="wishlist-table">
+  <div id="loader">Загрузка данных из облака...</div>
+
+  <table class="wishlist-table" id="table-container" style="display:none;">
     <thead>
       <tr>
         <th></th><th>Фото</th><th>Название</th><th>Категория</th>
@@ -114,7 +121,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     <tbody id="wishlist-body"></tbody>
   </table>
 
-  <div class="card-list" id="card-list"></div>
+  <div class="card-list" id="card-list" style="display:none;"></div>
 
   <div class="totals-bar">
     <span><span class="total-label">Итого: </span><span class="total-val" id="price-total">—</span></span>
@@ -125,7 +132,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   <div class="modal">
     <div class="modal-header">
       <h2>Выбрать изображение</h2>
-      <button class="modal-close" onclick="closeModal()">&#10005;</button>
+      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;" onclick="closeModal()">✕</button>
     </div>
     <div class="tabs">
       <button class="tab active" id="tab-search" onclick="switchTab('search')">&#128269; Поиск</button>
@@ -135,7 +142,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     <div class="modal-body">
       <div id="panel-search">
         <div style="display:flex;gap:8px;margin-bottom:15px;">
-          <input class="form-input" style="flex:1" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
+          <input class="form-input" style="flex:1; margin-bottom:0;" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
           <button class="btn btn-primary" onclick="runSearch()">Найти</button>
         </div>
         <div id="search-results"></div>
@@ -161,7 +168,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   <div class="modal" style="width:min(500px, 95vw)">
     <div class="modal-header">
       <h2>✎ Редактировать</h2>
-      <button class="modal-close" onclick="closeEditModal()">✕</button>
+      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;" onclick="closeEditModal()">✕</button>
     </div>
     <div class="edit-form" id="edit-form-content"></div>
     <div class="modal-footer">
@@ -172,10 +179,25 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 </div>
 
 <script>
+// --- КОНФИГУРАЦИЯ FIREBASE ---
+const firebaseConfig = {
+  apiKey: "AIzaSyAQrYMg27mYZ0wzDAZ53bmCbQbz67R2XJQ",
+  authDomain: "mywishlist-effa0.firebaseapp.com",
+  databaseURL: "https://mywishlist-effa0-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "mywishlist-effa0",
+  storageBucket: "mywishlist-effa0.firebasestorage.app",
+  messagingSenderId: "799767453844",
+  appId: "1:799767453844:web:e4ec91ffa40eaa55e99481"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const wishlistRef = db.ref('assem_wishlist_data');
+
 const GOOGLE_API_KEY = 'AIzaSyDXAXW8dLoFzv02eHaPtkFMJCs8PgYrt-k';
 const GOOGLE_CX      = '50921117ca92e400d';
 
-let rows = JSON.parse(localStorage.getItem('assem_wishlist') || '[]');
+let rows = [];
 let activeRowId = null;
 let selectedImageUrl = null;
 let activeTab = 'search';
@@ -184,26 +206,60 @@ const PRIORITIES = ['high','mid','low'];
 const PRIORITY_LABELS = {high:'🔥 Высокий',mid:'✦ Средний',low:'· Низкий'};
 const PRIORITY_CLASSES = {high:'p-high',mid:'p-mid',low:'p-low'};
 
-function saveToStore(){ localStorage.setItem('assem_wishlist', JSON.stringify(rows)); }
-function uid(){ return Math.random().toString(36).slice(2,9); }
+function uid(){ return Math.random().toString(36).slice(2,11); }
 
+// --- СИНХРОНИЗАЦИЯ С ОБЛАКОМ ---
+wishlistRef.on('value', (snapshot) => {
+  document.getElementById('loader').style.display = 'none';
+  if (window.innerWidth > 640) document.getElementById('table-container').style.display = 'table';
+  else document.getElementById('card-list').style.display = 'flex';
+  
+  const data = snapshot.val();
+  rows = data ? Object.values(data) : [];
+  render();
+  updateStats();
+});
+
+function saveRowToCloud(row) {
+  wishlistRef.child(row.id).set(row);
+}
+
+function removeRowFromCloud(id) {
+  wishlistRef.child(id).remove();
+}
+
+// --- УПРАВЛЕНИЕ ДАННЫМИ ---
 function addRow(){
   const row = {id:uid(), done:false, image:null, name:'', category:'', priority:'mid', price:'', link:'', note:''};
-  rows.push(row); render(); updateStats(); saveToStore();
+  saveRowToCloud(row);
 }
 
-function deleteRow(id){ rows = rows.filter(r=>r.id!==id); render(); updateStats(); saveToStore(); }
+function deleteRow(id){ removeRowFromCloud(id); }
+
 function toggleDone(id){ 
-  const r = rows.find(r=>r.id===id); if(r) r.done = !r.done; 
-  render(); updateStats(); saveToStore(); 
+  const r = rows.find(r=>r.id===id); 
+  if(r) {
+    r.done = !r.done; 
+    saveRowToCloud(r);
+  }
 }
 
+// Сохраняем текст в облако только когда пользователь убирает курсор с поля (onblur)
 function updateField(id, field, val){
-  const r = rows.find(r=>r.id===id); if(r) r[field] = val;
-  if(field==='price') updateStats();
-  saveToStore();
+  const r = rows.find(r=>r.id===id); 
+  if(r) {
+    r[field] = val;
+    saveRowToCloud(r);
+  }
 }
 
+function cyclePriority(id){
+  const r = rows.find(r=>r.id===id); if(!r) return;
+  r.priority = PRIORITIES[(PRIORITIES.indexOf(r.priority)+1)%PRIORITIES.length];
+  saveRowToCloud(r);
+}
+
+// --- ОТОБРАЖЕНИЕ ---
 function render(){
   const tbody = document.getElementById('wishlist-body');
   const cardList = document.getElementById('card-list');
@@ -212,11 +268,11 @@ function render(){
     <tr class="${r.done?'checked-row':''}">
       <td><div class="custom-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'✓':''}</div></td>
       <td><div class="img-slot" onclick="openImageModal('${r.id}')">${r.image?`<img src="${r.image}">`:'+'}</div></td>
-      <td><span class="editable" contenteditable="true" oninput="updateField('${r.id}','name',this.innerText)">${r.name}</span></td>
-      <td><span class="editable" contenteditable="true" oninput="updateField('${r.id}','category',this.innerText)">${r.category}</span></td>
+      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','name',this.innerText)">${r.name}</span></td>
+      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','category',this.innerText)">${r.category}</span></td>
       <td><span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span></td>
-      <td><span class="editable" contenteditable="true" oninput="updateField('${r.id}','price',this.innerText)">${r.price}</span></td>
-      <td><span class="editable" contenteditable="true" oninput="updateField('${r.id}','link',this.innerText)">${r.link}</span></td>
+      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','price',this.innerText)">${r.price}</span></td>
+      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','link',this.innerText)">${r.link}</span></td>
       <td><button class="action-btn" onclick="openEditModal('${r.id}')">✎</button></td>
       <td><button class="action-btn" onclick="deleteRow('${r.id}')">✕</button></td>
     </tr>
@@ -236,21 +292,15 @@ function render(){
   `).join('');
 }
 
-function cyclePriority(id){
-  const r = rows.find(r=>r.id===id); if(!r) return;
-  r.priority = PRIORITIES[(PRIORITIES.indexOf(r.priority)+1)%PRIORITIES.length];
-  render(); saveToStore();
-}
-
 function updateStats(){
   document.getElementById('total-items').textContent = rows.length;
   document.getElementById('done-items').textContent = rows.filter(r=>r.done).length;
   let total = 0;
-  rows.forEach(r=>{ let p = parseFloat(r.price.replace(/[^0-9.]/g,'')); if(!isNaN(p)) total+=p; });
+  rows.forEach(r=>{ let p = parseFloat(String(r.price).replace(/[^0-9.]/g,'')); if(!isNaN(p)) total+=p; });
   document.getElementById('price-total').textContent = total > 0 ? total.toLocaleString() + ' ₽' : '—';
 }
 
-// Функции модалок поиска и загрузки фото
+// --- ФОТО И ПОИСК ---
 function openImageModal(id){ activeRowId = id; selectedImageUrl = null; document.getElementById('modal-overlay').classList.add('open'); switchTab('search'); }
 function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
 function switchTab(tab){
@@ -275,16 +325,26 @@ function handleFileUpload(input){
   reader.onload = (e) => { selectedImageUrl = e.target.result; document.getElementById('upload-preview-img').src = e.target.result; document.getElementById('upload-preview').style.display='block'; };
   reader.readAsDataURL(input.files[0]);
 }
-function applyImage(){ if(selectedImageUrl){ const r=rows.find(r=>r.id===activeRowId); if(r)r.image=selectedImageUrl; render(); saveToStore(); } closeModal(); }
 
-// Функции редактирования
+function applyImage(){ 
+  if(selectedImageUrl){ 
+    const r = rows.find(r=>r.id===activeRowId); 
+    if(r){
+      r.image = selectedImageUrl; 
+      saveRowToCloud(r); 
+    }
+  } 
+  closeModal(); 
+}
+
+// --- РЕДАКТИРОВАНИЕ В ОКНЕ ---
 function openEditModal(id){
   const r = rows.find(r=>r.id === id); activeRowId = id;
   document.getElementById('edit-form-content').innerHTML = `
-    <div class="form-row"><label>Название</label><input class="form-input" id="ed-name" value="${r.name}"></div>
-    <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category}"></div>
-    <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price}"></div>
-    <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link}"></div>
+    <div class="form-row"><label>Название</label><input class="form-input" id="ed-name" value="${r.name||''}"></div>
+    <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category||''}"></div>
+    <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price||''}"></div>
+    <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link||''}"></div>
     <div class="form-row"><label>Заметка</label><textarea class="form-input" id="ed-note" style="height:60px">${r.note||''}</textarea></div>
   `;
   document.getElementById('edit-modal-overlay').classList.add('open');
@@ -292,15 +352,16 @@ function openEditModal(id){
 function closeEditModal(){ document.getElementById('edit-modal-overlay').classList.remove('open'); }
 function saveEdit(){
   const r = rows.find(r=>r.id === activeRowId);
-  r.name = document.getElementById('ed-name').value;
-  r.category = document.getElementById('ed-cat').value;
-  r.price = document.getElementById('ed-price').value;
-  r.link = document.getElementById('ed-link').value;
-  r.note = document.getElementById('ed-note').value;
-  render(); updateStats(); saveToStore(); closeEditModal();
+  if(r) {
+    r.name = document.getElementById('ed-name').value;
+    r.category = document.getElementById('ed-cat').value;
+    r.price = document.getElementById('ed-price').value;
+    r.link = document.getElementById('ed-link').value;
+    r.note = document.getElementById('ed-note').value;
+    saveRowToCloud(r);
+  }
+  closeEditModal();
 }
-
-render(); updateStats();
 </script>
 </body>
 </html>
