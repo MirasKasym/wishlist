@@ -19,6 +19,7 @@ header{text-align:center;padding:40px 24px 28px;border-bottom:1px solid var(--bo
 header .eyebrow{font-size:11px;letter-spacing:4px;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px;}
 header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,5vw,3.2rem);font-weight:700;color:var(--dark);line-height:1.1;}
 header h1 em{color:var(--gold);font-style:italic;}
+.container{max-width:1100px;margin:0 auto;padding:28px 166px 80px;} /* adjusted padding for desktop */
 .container{max-width:1100px;margin:0 auto;padding:28px 16px 80px;}
 .controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
 .stats{font-size:13px;color:var(--soft);}
@@ -33,7 +34,7 @@ header h1 em{color:var(--gold);font-style:italic;}
 .totals-bar .total-label{color:var(--soft);}
 .totals-bar .total-val{font-weight:600;color:var(--dark);}
 
-/* ── DESKTOP TABLE ── */
+/* ── TABLE ── */
 .wishlist-table{width:100%;border-collapse:separate;border-spacing:0;background:white;border-radius:12px;
   overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 32px rgba(0,0,0,.04);border:1px solid var(--border);}
 thead tr{background:var(--dark);}
@@ -52,10 +53,9 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .item-image-cell{width:72px;}
 .img-slot{width:56px;height:56px;border-radius:8px;border:1.5px dashed var(--border);display:flex;
   align-items:center;justify-content:center;cursor:pointer;overflow:hidden;transition:all .2s;background:var(--cream);}
-.img-slot:hover{border-color:var(--gold);}
 .img-slot img{width:100%;height:100%;object-fit:cover;border-radius:7px;}
 .img-slot .plus-icon{font-size:18px;color:var(--soft);}
-.editable{outline:none;border-radius:4px;padding:3px 5px;margin:-3px -5px;transition:background .15s;min-width:40px;}
+.editable{outline:none;border-radius:4px;padding:3px 5px;margin:-3px -5px;transition:background .15s;min-width:40px;display:inline-block;}
 .editable:focus{background:var(--warm);}
 .editable[placeholder]:empty::before{content:attr(placeholder);color:var(--border);}
 .priority-badge{display:inline-block;padding:3px 9px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;user-select:none;white-space:nowrap;}
@@ -67,97 +67,45 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .edit-btn:hover{color:var(--gold);background:rgba(201,168,76,.1);}
 .del-btn{color:var(--border);}
 .del-btn:hover{color:var(--accent);}
-.empty-row td{padding:48px 24px;text-align:center;color:var(--soft);font-size:13px;}
 
 /* ── MOBILE CARDS ── */
 .card-list{display:none;flex-direction:column;gap:12px;}
-.card{background:white;border-radius:14px;padding:16px;border:1px solid var(--border);
-  box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 16px rgba(0,0,0,.04);transition:opacity .2s;}
+.card{background:white;border-radius:14px;padding:16px;border:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,.05);}
 .card.checked-card{opacity:.5;}
 .card-top{display:flex;gap:12px;align-items:flex-start;}
-.card-img{width:72px;height:72px;border-radius:10px;border:1.5px dashed var(--border);display:flex;
-  align-items:center;justify-content:center;cursor:pointer;overflow:hidden;background:var(--cream);flex-shrink:0;}
-.card-img img{width:100%;height:100%;object-fit:cover;border-radius:9px;}
-.card-img .plus-icon{font-size:22px;color:var(--soft);}
+.card-img{width:72px;height:72px;border-radius:10px;border:1.5px dashed var(--border);display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--cream);flex-shrink:0;}
+.card-img img{width:100%;height:100%;object-fit:cover;}
 .card-main{flex:1;min-width:0;}
-.card-name{font-size:15px;font-weight:500;color:var(--dark);margin-bottom:4px;
-  outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;}
-.card-name:focus{background:var(--warm);}
-.card-name[placeholder]:empty::before{content:attr(placeholder);color:var(--border);font-weight:400;}
-.card-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;}
-.card-price{font-size:13px;color:var(--mid);outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;}
-.card-price:focus{background:var(--warm);}
-.card-price[placeholder]:empty::before{content:attr(placeholder);color:var(--border);}
-.card-actions{display:flex;align-items:center;gap:4px;margin-left:auto;flex-shrink:0;}
-.card-check{width:22px;height:22px;border:2px solid var(--border);border-radius:5px;cursor:pointer;
-  display:flex;align-items:center;justify-content:center;transition:all .2s;background:white;flex-shrink:0;}
-.card-check.done{background:var(--gold);border-color:var(--gold);color:white;font-size:12px;}
-.card-bottom{margin-top:10px;padding-top:10px;border-top:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;gap:8px;}
-.card-category{font-size:12px;color:var(--soft);outline:none;border-radius:4px;padding:2px 4px;margin:-2px -4px;min-width:30px;}
-.card-category:focus{background:var(--warm);}
-.card-category[placeholder]:empty::before{content:attr(placeholder);color:var(--border);}
-.empty-cards{text-align:center;padding:48px 16px;color:var(--soft);font-size:13px;}
+.card-name{font-size:15px;font-weight:600;margin-bottom:4px;}
 
 /* ── MODALS ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(26,22,18,.7);backdrop-filter:blur(4px);z-index:1000;align-items:center;justify-content:center;}
 .modal-overlay.open{display:flex;}
-.modal{background:white;border-radius:16px;width:min(640px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 24px 80px rgba(0,0,0,.25);}
+.modal{background:white;border-radius:16px;width:min(640px,95vw);max-height:88vh;display:flex;flex-direction:column;overflow:hidden;}
 .modal-header{padding:18px 20px 14px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
-.modal-header h2{font-family:'Playfair Display',serif;font-size:1.15rem;color:var(--dark);}
-.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--soft);line-height:1;padding:4px;transition:color .15s;}
-.modal-close:hover{color:var(--dark);}
-.modal-search{padding:14px 20px;border-bottom:1px solid var(--border);display:flex;gap:8px;}
-.search-input{flex:1;padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;
-  font-family:'DM Sans',sans-serif;font-size:14px;outline:none;color:var(--dark);background:var(--cream);}
-.search-input:focus{border-color:var(--gold);}
-.search-input::placeholder{color:var(--soft);}
-.modal-body{padding:16px 20px;overflow-y:auto;flex:1;}
-.search-hint{text-align:center;padding:28px 0;color:var(--soft);font-size:13px;}
-.search-hint .big{font-size:2rem;display:block;margin-bottom:8px;}
-.image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
-.img-result{border-radius:10px;overflow:hidden;cursor:pointer;border:2.5px solid transparent;transition:all .2s;aspect-ratio:1;background:var(--warm);position:relative;}
-.img-result:hover{border-color:var(--gold);}
-.img-result.selected{border-color:var(--gold);box-shadow:0 0 0 3px rgba(201,168,76,.3);}
-.img-result img{width:100%;height:100%;object-fit:cover;display:block;}
-.img-result .check-overlay{display:none;position:absolute;inset:0;background:rgba(201,168,76,.25);align-items:center;justify-content:center;font-size:2rem;}
-.img-result.selected .check-overlay{display:flex;}
-.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
-.loading-dots{display:flex;gap:6px;justify-content:center;padding:40px 0;}
-.loading-dots span{width:8px;height:8px;border-radius:50%;background:var(--gold);animation:bounce 1s infinite;}
-.loading-dots span:nth-child(2){animation-delay:.15s;}
-.loading-dots span:nth-child(3){animation-delay:.3s;}
-@keyframes bounce{0%,60%,100%{transform:translateY(0);}30%{transform:translateY(-10px);}}
-.url-tab-area{padding:16px 20px;}
+.modal-close{background:none;border:none;font-size:20px;cursor:pointer;color:var(--soft);}
 .tabs{display:flex;padding:0 20px;gap:4px;border-bottom:1px solid var(--border);}
-.tab{padding:10px 14px;font-size:13px;cursor:pointer;border-bottom:2px solid transparent;color:var(--soft);
-  margin-bottom:-1px;transition:all .15s;font-family:'DM Sans',sans-serif;background:none;border-top:none;border-left:none;border-right:none;}
-.tab.active{color:var(--dark);border-bottom-color:var(--gold);font-weight:500;}
-/* Edit modal */
-.edit-modal{width:min(520px,95vw);max-height:90vh;}
-.edit-form{padding:20px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
-.form-row{display:flex;flex-direction:column;gap:5px;}
-.form-row label{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--soft);font-weight:500;}
-.form-input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;
-  font-size:14px;color:var(--dark);outline:none;background:var(--cream);width:100%;}
-.form-input:focus{border-color:var(--gold);background:white;}
-.form-row-2col{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.priority-picker{display:flex;gap:8px;}
-.priority-opt{flex:1;padding:8px 4px;border-radius:8px;text-align:center;font-size:12px;font-weight:500;cursor:pointer;border:2px solid transparent;transition:all .15s;}
-.priority-opt.active{border-color:var(--dark);}
-.edit-image-row{display:flex;align-items:center;gap:12px;}
-.edit-img-preview{width:72px;height:72px;border-radius:10px;border:1.5px dashed var(--border);overflow:hidden;
-  display:flex;align-items:center;justify-content:center;background:var(--cream);flex-shrink:0;cursor:pointer;}
-.edit-img-preview img{width:100%;height:100%;object-fit:cover;}
-.edit-img-preview .plus-icon{font-size:22px;color:var(--soft);}
+.tab{padding:12px 14px;font-size:13px;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;color:var(--soft);transition:0.2s;}
+.tab.active{color:var(--dark);border-bottom-color:var(--gold);font-weight:600;}
+.modal-body{padding:20px;overflow-y:auto;flex:1;}
+.search-hint{text-align:center;padding:40px 0;color:var(--soft);}
+.image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.img-result{border-radius:10px;overflow:hidden;cursor:pointer;border:3px solid transparent;aspect-ratio:1;position:relative;}
+.img-result.selected{border-color:var(--gold);}
+.img-result img{width:100%;height:100%;object-fit:cover;}
+.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
 
-/* ── RESPONSIVE ── */
+/* Edit Form */
+.edit-form{padding:20px;display:flex;flex-direction:column;gap:15px;}
+.form-row{display:flex;flex-direction:column;gap:5px;}
+.form-row label{font-size:11px;text-transform:uppercase;color:var(--soft);font-weight:600;}
+.form-input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;outline:none;background:var(--cream);}
+.form-input:focus{border-color:var(--gold);background:white;}
+
 @media(max-width:640px){
   .wishlist-table{display:none;}
   .card-list{display:flex;}
-  header{padding:28px 16px 20px;}
-  .image-grid{grid-template-columns:repeat(2,1fr);}
-  .form-row-2col{grid-template-columns:1fr;}
+  .image-grid{grid-template-columns:1fr 1fr;}
 }
 </style>
 </head>
@@ -174,7 +122,6 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     <button class="btn btn-primary" onclick="addRow()">+ Добавить</button>
   </div>
 
-  <!-- DESKTOP TABLE -->
   <table class="wishlist-table">
     <thead>
       <tr>
@@ -185,7 +132,6 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     <tbody id="wishlist-body"></tbody>
   </table>
 
-  <!-- MOBILE CARDS -->
   <div class="card-list" id="card-list"></div>
 
   <div class="totals-bar">
@@ -193,35 +139,45 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   </div>
 </div>
 
-<!-- IMAGE SEARCH MODAL -->
-<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+<div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
       <h2>Выбрать изображение</h2>
       <button class="modal-close" onclick="closeModal()">&#10005;</button>
     </div>
     <div class="tabs">
-      <button class="tab active" id="tab-search" onclick="switchTab('search')">&#128269; Поиск Google</button>
-      <button class="tab" id="tab-url" onclick="switchTab('url')">&#128279; Вставить URL</button>
+      <button class="tab active" id="tab-search" onclick="switchTab('search')">&#128269; Поиск</button>
+      <button class="tab" id="tab-url" onclick="switchTab('url')">&#128279; URL</button>
+      <button class="tab" id="tab-upload" onclick="switchTab('upload')">&#128228; Загрузить</button>
     </div>
-    <div id="panel-search">
-      <div class="modal-search">
-        <input class="search-input" id="search-input" placeholder="Например: Nike Air Max, Zara bag..." onkeydown="if(event.key==='Enter')runSearch()">
-        <button class="btn btn-primary" onclick="runSearch()">Найти</button>
+    
+    <div class="modal-body">
+      <div id="panel-search">
+        <div style="display:flex;gap:8px;margin-bottom:15px;">
+          <input class="form-input" style="flex:1" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
+          <button class="btn btn-primary" onclick="runSearch()">Найти</button>
+        </div>
+        <div id="search-results">
+           <div class="search-hint">Введите название для поиска в Google</div>
+        </div>
       </div>
-      <div class="modal-body" id="modal-body">
-        <div class="search-hint"><span class="big">&#128247;</span>Введите название товара</div>
+
+      <div id="panel-url" style="display:none;">
+        <input type="url" id="url-input" class="form-input" style="width:100%" placeholder="https://example.com/image.jpg" oninput="previewUrlImage(this.value)">
+        <div id="url-preview" style="margin-top:15px; text-align:center; display:none;">
+          <img id="url-preview-img" style="max-height:200px; border-radius:8px;">
+        </div>
       </div>
-    </div>
-    <div id="panel-url" style="display:none;">
-      <div class="url-tab-area">
-        <p style="font-size:13px;color:var(--soft);margin-bottom:12px;">Вставьте прямую ссылку на изображение:</p>
-        <input type="url" id="url-input" class="form-input" placeholder="https://example.com/image.jpg">
-        <div id="url-preview" style="margin-top:14px;display:none;">
-          <img id="url-preview-img" style="max-width:100%;max-height:160px;border-radius:8px;object-fit:contain;border:1px solid var(--border);">
+
+      <div id="panel-upload" style="display:none; text-align:center; padding:20px;">
+        <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(this)">
+        <button class="btn btn-ghost" onclick="document.getElementById('file-input').click()">&#128193; Выбрать файл на устройстве</button>
+        <div id="upload-preview" style="margin-top:15px; display:none;">
+          <img id="upload-preview-img" style="max-height:200px; border-radius:8px;">
         </div>
       </div>
     </div>
+
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeModal()">Отмена</button>
       <button class="btn btn-primary" onclick="applyImage()">Применить</button>
@@ -229,275 +185,226 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   </div>
 </div>
 
-<!-- EDIT MODAL -->
-<div class="modal-overlay" id="edit-modal-overlay" onclick="handleEditOverlayClick(event)">
-  <div class="modal edit-modal">
+<div class="modal-overlay" id="edit-modal-overlay" onclick="if(event.target===this)closeEditModal()">
+  <div class="modal" style="width:min(500px, 95vw)">
     <div class="modal-header">
       <h2>&#9998; Редактировать</h2>
       <button class="modal-close" onclick="closeEditModal()">&#10005;</button>
     </div>
-    <div class="edit-form" id="edit-form"></div>
+    <div class="edit-form" id="edit-form-content"></div>
     <div class="modal-footer">
       <button class="btn btn-ghost" onclick="closeEditModal()">Отмена</button>
-      <button class="btn btn-primary" onclick="saveEdit()">&#128190; Сохранить</button>
+      <button class="btn btn-primary" onclick="saveEdit()">Сохранить</button>
     </div>
   </div>
 </div>
 
 <script>
+// --- CONFIG ---
 const GOOGLE_API_KEY = 'AIzaSyDXAXW8dLoFzv02eHaPtkFMJCs8PgYrt-k';
 const GOOGLE_CX      = '50921117ca92e400d';
 
-let rows = [];
-let activeSlotId = null;
+let rows = JSON.parse(localStorage.getItem('assem_wishlist') || '[]');
+let activeRowId = null;
 let selectedImageUrl = null;
 let activeTab = 'search';
-let editingId = null;
+let editingData = {};
 
 const PRIORITIES = ['high','mid','low'];
 const PRIORITY_LABELS = {high:'&#128293; Высокий',mid:'&#10022; Средний',low:'&middot; Низкий'};
 const PRIORITY_CLASSES = {high:'p-high',mid:'p-mid',low:'p-low'};
 
+function saveToStore(){ localStorage.setItem('assem_wishlist', JSON.stringify(rows)); }
+
 function uid(){ return Math.random().toString(36).slice(2,9); }
 
-function addRow(data={}){
-  const row={id:uid(),done:data.done||false,image:data.image||null,name:data.name||'',
-    category:data.category||'',priority:data.priority||'mid',price:data.price||'',link:data.link||'',note:data.note||''};
-  rows.push(row); render(); updateStats();
-  setTimeout(()=>{ const el=document.getElementById('name-'+row.id); if(el){el.focus();placeCaretAtEnd(el);} },50);
+function addRow(){
+  const row = {id:uid(), done:false, image:null, name:'', category:'', priority:'mid', price:'', link:'', note:''};
+  rows.push(row); render(); updateStats(); saveToStore();
 }
 
-function deleteRow(id){ rows=rows.filter(r=>r.id!==id); render(); updateStats(); }
+function deleteRow(id){ rows = rows.filter(r=>r.id!==id); render(); updateStats(); saveToStore(); }
 
 function toggleDone(id){
-  const r=rows.find(r=>r.id===id); if(r) r.done=!r.done; render(); updateStats();
+  const r = rows.find(r=>r.id===id); if(r) r.done = !r.done; 
+  render(); updateStats(); saveToStore();
 }
 
 function cyclePriority(id){
-  const r=rows.find(r=>r.id===id); if(!r) return;
-  r.priority=PRIORITIES[(PRIORITIES.indexOf(r.priority)+1)%PRIORITIES.length]; render();
+  const r = rows.find(r=>r.id===id); if(!r) return;
+  r.priority = PRIORITIES[(PRIORITIES.indexOf(r.priority)+1)%PRIORITIES.length];
+  render(); saveToStore();
 }
 
-function updateField(id,field,value){
-  const r=rows.find(r=>r.id===id); if(r) r[field]=value; if(field==='price') updateStats();
+function updateField(id, field, val){
+  const r = rows.find(r=>r.id===id); if(r) r[field] = val;
+  if(field==='price') updateStats();
+  saveToStore();
 }
 
-function escHtml(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-function escAttr(s){ return (s||'').replace(/"/g,'&quot;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
+// --- RENDERING ---
 function render(){
-  renderTable();
-  renderCards();
-}
-
-/* ── Desktop table ── */
-function renderTable(){
-  const tbody=document.getElementById('wishlist-body');
-  if(rows.length===0){
-    tbody.innerHTML='<tr class="empty-row"><td colspan="9">Список пуст — нажмите <strong>+ Добавить</strong> &#10024;</td></tr>';
-    return;
-  }
-  tbody.innerHTML=rows.map(r=>`
-    <tr id="row-${r.id}" class="${r.done?'checked-row':''}">
+  const tbody = document.getElementById('wishlist-body');
+  const cardList = document.getElementById('card-list');
+  
+  const html = rows.map(r=>`
+    <tr class="${r.done?'checked-row':''}">
       <td class="check-cell"><div class="custom-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'&#10003;':''}</div></td>
       <td class="item-image-cell">
-        <div class="img-slot" onclick="openModal('${r.id}')" title="Добавить фото">
-          ${r.image?`<img src="${r.image}" onerror="this.parentNode.innerHTML='<span class=plus-icon>+</span>'">`:'<span class="plus-icon">+</span>'}
+        <div class="img-slot" onclick="openImageModal('${r.id}')">
+          ${r.image ? `<img src="${r.image}">` : '<span class="plus-icon">+</span>'}
         </div>
       </td>
-      <td><span class="editable" contenteditable="true" id="name-${r.id}" placeholder="Название…" oninput="updateField('${r.id}','name',this.innerText)">${escHtml(r.name)}</span></td>
-      <td><span class="editable" contenteditable="true" placeholder="Категория…" oninput="updateField('${r.id}','category',this.innerText)">${escHtml(r.category)}</span></td>
+      <td><span class="editable" contenteditable="true" placeholder="Название..." oninput="updateField('${r.id}','name',this.innerText)">${r.name}</span></td>
+      <td><span class="editable" contenteditable="true" placeholder="Категория..." oninput="updateField('${r.id}','category',this.innerText)">${r.category}</span></td>
       <td><span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span></td>
-      <td><span class="editable" contenteditable="true" placeholder="&#8381; 0" oninput="updateField('${r.id}','price',this.innerText)">${escHtml(r.price)}</span></td>
-      <td><span class="editable" contenteditable="true" placeholder="URL" oninput="updateField('${r.id}','link',this.innerText)" style="font-size:12px;color:var(--soft);">${escHtml(r.link)}</span></td>
+      <td><span class="editable" contenteditable="true" placeholder="0" oninput="updateField('${r.id}','price',this.innerText)">${r.price}</span></td>
+      <td><span class="editable" contenteditable="true" placeholder="URL" oninput="updateField('${r.id}','link',this.innerText)">${r.link}</span></td>
       <td><button class="action-btn edit-btn" onclick="openEditModal('${r.id}')">&#9998;</button></td>
       <td><button class="action-btn del-btn" onclick="deleteRow('${r.id}')">&#10005;</button></td>
     </tr>
   `).join('');
-}
+  
+  tbody.innerHTML = rows.length ? html : '<tr><td colspan="9" style="text-align:center;padding:40px;color:#999">Список пуст</td></tr>';
 
-/* ── Mobile cards ── */
-function renderCards(){
-  const list=document.getElementById('card-list');
-  if(rows.length===0){
-    list.innerHTML='<div class="empty-cards">Список пуст — нажмите <strong>+ Добавить</strong> &#10024;</div>';
-    return;
-  }
-  list.innerHTML=rows.map(r=>`
-    <div class="card ${r.done?'checked-card':''}" id="card-${r.id}">
+  cardList.innerHTML = rows.map(r=>`
+    <div class="card ${r.done?'checked-card':''}">
       <div class="card-top">
-        <div class="card-img" onclick="openModal('${r.id}')">
-          ${r.image?`<img src="${r.image}" onerror="this.parentNode.innerHTML='<span class=plus-icon>+</span>'">`:'<span class="plus-icon">+</span>'}
+        <div class="card-img" onclick="openImageModal('${r.id}')">
+           ${r.image ? `<img src="${r.image}">` : '<span class="plus-icon">+</span>'}
         </div>
         <div class="card-main">
-          <div class="card-name" contenteditable="true" id="name-${r.id}" placeholder="Название…" oninput="updateField('${r.id}','name',this.innerText)">${escHtml(r.name)}</div>
-          <div class="card-meta">
-            <span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span>
-            <span class="card-price" contenteditable="true" placeholder="&#8381; 0" oninput="updateField('${r.id}','price',this.innerText)">${escHtml(r.price)}</span>
-          </div>
+          <div class="card-name">${r.name || 'Без названия'}</div>
+          <div style="font-size:12px; color:var(--soft)">${r.price || '0'} &#8381;</div>
         </div>
-        <div class="card-actions">
-          <div class="card-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'&#10003;':''}</div>
-        </div>
-      </div>
-      <div class="card-bottom">
-        <span class="card-category" contenteditable="true" placeholder="Категория…" oninput="updateField('${r.id}','category',this.innerText)">${escHtml(r.category)}</span>
-        <div style="display:flex;gap:6px;">
-          <button class="action-btn edit-btn" onclick="openEditModal('${r.id}')">&#9998;</button>
-          <button class="action-btn del-btn" onclick="deleteRow('${r.id}')">&#10005;</button>
-        </div>
+        <div class="card-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'&#10003;':''}</div>
       </div>
     </div>
   `).join('');
 }
 
 function updateStats(){
-  document.getElementById('total-items').textContent=rows.length;
-  document.getElementById('done-items').textContent=rows.filter(r=>r.done).length;
-  let total=0,hasAny=false;
-  rows.forEach(r=>{const n=parseFloat((r.price||'').replace(/[^0-9.]/g,''));if(!isNaN(n)){total+=n;hasAny=true;}});
-  document.getElementById('price-total').textContent=hasAny?'&#8381;'+total.toFixed(2):'—';
+  document.getElementById('total-items').textContent = rows.length;
+  document.getElementById('done-items').textContent = rows.filter(r=>r.done).length;
+  let total = 0;
+  rows.forEach(r=>{ let p = parseFloat(r.price.replace(/[^0-9.]/g,'')); if(!isNaN(p)) total+=p; });
+  document.getElementById('price-total').textContent = total > 0 ? total.toLocaleString() + ' \u20BD' : '—';
 }
 
-function placeCaretAtEnd(el){
-  const range=document.createRange(),sel=window.getSelection();
-  range.selectNodeContents(el);range.collapse(false);sel.removeAllRanges();sel.addRange(range);
-}
-
-/* ── Image Modal ── */
-function openModal(rowId){
-  activeSlotId=rowId; selectedImageUrl=null;
-  if(rowId==='__edit__') document.getElementById('edit-modal-overlay').classList.remove('open');
+// --- IMAGE MODAL LOGIC ---
+function openImageModal(id){
+  activeRowId = id;
+  selectedImageUrl = null;
   document.getElementById('modal-overlay').classList.add('open');
-  document.getElementById('search-input').value='';
-  document.getElementById('modal-body').innerHTML='<div class="search-hint"><span class="big">&#128247;</span>Введите название товара</div>';
-  document.getElementById('url-input').value='';
-  document.getElementById('url-preview').style.display='none';
   switchTab('search');
-  setTimeout(()=>document.getElementById('search-input').focus(),100);
 }
 
-function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); activeSlotId=null; selectedImageUrl=null; }
-function handleOverlayClick(e){ if(e.target===document.getElementById('modal-overlay')) closeModal(); }
+function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
 
 function switchTab(tab){
-  activeTab=tab;
-  document.getElementById('tab-search').classList.toggle('active',tab==='search');
-  document.getElementById('tab-url').classList.toggle('active',tab==='url');
-  document.getElementById('panel-search').style.display=tab==='search'?'':'none';
-  document.getElementById('panel-url').style.display=tab==='url'?'':'none';
-}
-
-document.addEventListener('DOMContentLoaded',()=>{
-  document.getElementById('url-input').addEventListener('input',function(){
-    const url=this.value.trim(),preview=document.getElementById('url-preview'),img=document.getElementById('url-preview-img');
-    if(url.startsWith('http')){img.src=url;img.onload=()=>{preview.style.display='';selectedImageUrl=url;};img.onerror=()=>{preview.style.display='none';selectedImageUrl=null;};}
-    else{preview.style.display='none';selectedImageUrl=null;}
+  activeTab = tab;
+  ['search','url','upload'].forEach(t=>{
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    document.getElementById('panel-'+t).style.display = t===tab ? 'block' : 'none';
   });
-});
+}
 
 async function runSearch(){
-  const q=document.getElementById('search-input').value.trim(); if(!q) return;
-  const body=document.getElementById('modal-body');
-  body.innerHTML='<div class="loading-dots"><span></span><span></span><span></span></div>';
-  try{
-    const url=`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}&searchType=image&num=9&safe=active`;
-    const res=await fetch(url); const data=await res.json();
-    if(data.error) throw new Error(data.error.message);
-    const images=(data.items||[]).map(i=>({url:i.link,title:i.title}));
-    if(!images.length) throw new Error('Нет результатов');
-    renderResults(images);
-  }catch(err){
-    body.innerHTML=`<div class="search-hint"><span class="big">&#128533;</span>Не найдено. Попробуйте другой запрос.<br><small style="color:var(--soft);margin-top:6px;display:block">${err.message}</small></div>`;
-  }
+  const q = document.getElementById('search-input').value;
+  const container = document.getElementById('search-results');
+  container.innerHTML = 'Загрузка...';
+  try {
+    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}&searchType=image&num=9`);
+    const data = await res.json();
+    if(!data.items) throw new Error();
+    container.innerHTML = '<div class="image-grid">' + data.items.map(item=>`
+      <div class="img-result" onclick="selectImg(this, '${item.link}')">
+        <img src="${item.link}">
+      </div>
+    `).join('') + '</div>';
+  } catch(e) { container.innerHTML = 'Ничего не найдено или ошибка API'; }
 }
 
-function renderResults(images){
-  const body=document.getElementById('modal-body');
-  body.innerHTML='<div class="image-grid" id="image-grid"></div>';
-  const grid=document.getElementById('image-grid');
-  images.forEach(img=>{
-    if(!img.url) return;
-    const div=document.createElement('div'); div.className='img-result';
-    div.innerHTML=`<img src="${img.url}" alt="" loading="lazy" onerror="this.parentNode.style.display='none'"><div class="check-overlay">&#10003;</div>`;
-    div.addEventListener('click',()=>{ document.querySelectorAll('.img-result').forEach(d=>d.classList.remove('selected')); div.classList.add('selected'); selectedImageUrl=img.url; });
-    grid.appendChild(div);
-  });
+function selectImg(el, url){
+  document.querySelectorAll('.img-result').forEach(i=>i.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedImageUrl = url;
+}
+
+function previewUrlImage(url){
+  const img = document.getElementById('url-preview-img');
+  img.src = url;
+  document.getElementById('url-preview').style.display = url ? 'block' : 'none';
+  selectedImageUrl = url;
+}
+
+function handleFileUpload(input){
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    selectedImageUrl = e.target.result;
+    const img = document.getElementById('upload-preview-img');
+    img.src = selectedImageUrl;
+    document.getElementById('upload-preview').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
 }
 
 function applyImage(){
-  let url=activeTab==='url'?document.getElementById('url-input').value.trim():selectedImageUrl;
-  if(!url){ closeModal(); return; }
-  if(activeSlotId==='__edit__'){
-    const form=document.getElementById('edit-form');
-    if(form){form.dataset.image=url;const p=document.getElementById('edit-img-preview');if(p)p.innerHTML=`<img src="${url}" style="width:100%;height:100%;object-fit:cover;">`;}
-    closeModal(); document.getElementById('edit-modal-overlay').classList.add('open'); return;
+  if(!selectedImageUrl) return closeModal();
+  
+  if(activeRowId === '__EDITING__'){
+    editingData.image = selectedImageUrl;
+    document.getElementById('edit-preview-img').src = selectedImageUrl;
+  } else {
+    const r = rows.find(r=>r.id === activeRowId);
+    if(r) r.image = selectedImageUrl;
+    render();
+    saveToStore();
   }
-  const r=rows.find(r=>r.id===activeSlotId); if(r) r.image=url; render(); closeModal();
+  closeModal();
 }
 
-/* ── Edit Modal ── */
+// --- EDIT MODAL ---
 function openEditModal(id){
-  const r=rows.find(r=>r.id===id); if(!r) return;
-  editingId=id;
-  const form=document.getElementById('edit-form');
-  form.innerHTML=`
-    <div class="form-row">
-      <label>Фото</label>
-      <div class="edit-image-row">
-        <div class="edit-img-preview" onclick="openImagePickerFromEdit()" id="edit-img-preview">
-          ${r.image?`<img src="${r.image}">`:'<span class="plus-icon">+</span>'}
-        </div>
-        <div style="display:flex;flex-direction:column;gap:8px;flex:1">
-          <button class="btn btn-ghost" style="font-size:12px;padding:7px 12px;" onclick="openImagePickerFromEdit()">&#128269; Найти фото</button>
-          ${r.image?'<button class="btn btn-ghost" style="font-size:12px;padding:7px 12px;color:var(--accent)" onclick="clearEditImage()">&#10005; Удалить фото</button>':''}
-        </div>
-      </div>
+  const r = rows.find(r=>r.id === id);
+  if(!r) return;
+  activeRowId = id;
+  editingData = {...r};
+  
+  const container = document.getElementById('edit-form-content');
+  container.innerHTML = `
+    <div style="display:flex; gap:15px; align-items:center; margin-bottom:10px;">
+       <img id="edit-preview-img" src="${r.image || ''}" style="width:80px; height:80px; border-radius:10px; object-fit:cover; background:#eee">
+       <button class="btn btn-ghost" onclick="activeRowId='__EDITING__'; openImageModal('__EDITING__')">Изменить фото</button>
     </div>
-    <div class="form-row"><label>Название</label><input class="form-input" id="ef-name" value="${escAttr(r.name)}" placeholder="Название товара…"></div>
-    <div class="form-row-2col">
-      <div class="form-row"><label>Категория</label><input class="form-input" id="ef-category" value="${escAttr(r.category)}" placeholder="Мода, Техника…"></div>
-      <div class="form-row"><label>Цена</label><input class="form-input" id="ef-price" value="${escAttr(r.price)}" placeholder="&#8381; 0"></div>
-    </div>
-    <div class="form-row">
-      <label>Приоритет</label>
-      <div class="priority-picker">
-        <div class="priority-opt p-high ${r.priority==='high'?'active':''}" onclick="selectEditPriority('high')">&#128293; Высокий</div>
-        <div class="priority-opt p-mid ${r.priority==='mid'?'active':''}" onclick="selectEditPriority('mid')">&#10022; Средний</div>
-        <div class="priority-opt p-low ${r.priority==='low'?'active':''}" onclick="selectEditPriority('low')">&middot; Низкий</div>
-      </div>
-    </div>
-    <div class="form-row"><label>Ссылка</label><input class="form-input" id="ef-link" value="${escAttr(r.link)}" placeholder="https://…"></div>
-    <div class="form-row"><label>Заметка</label><input class="form-input" id="ef-note" value="${escAttr(r.note||'')}" placeholder="Подарок на день рождения…"></div>
+    <div class="form-row"><label>Название</label><input class="form-input" id="ed-name" value="${r.name}"></div>
+    <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category}"></div>
+    <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price}"></div>
+    <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link}"></div>
+    <div class="form-row"><label>Заметка</label><input class="form-input" id="ed-note" value="${r.note}"></div>
   `;
-  form.dataset.priority=r.priority; form.dataset.image=r.image||'';
   document.getElementById('edit-modal-overlay').classList.add('open');
-  setTimeout(()=>document.getElementById('ef-name').focus(),80);
 }
 
-function selectEditPriority(p){
-  document.getElementById('edit-form').dataset.priority=p;
-  document.querySelectorAll('.priority-opt').forEach(el=>{el.classList.remove('active');if(el.classList.contains('p-'+p))el.classList.add('active');});
-}
-function clearEditImage(){ document.getElementById('edit-form').dataset.image=''; const p=document.getElementById('edit-img-preview'); if(p)p.innerHTML='<span class="plus-icon">+</span>'; }
-function openImagePickerFromEdit(){ openModal('__edit__'); }
-function closeEditModal(){ document.getElementById('edit-modal-overlay').classList.remove('open'); editingId=null; }
-function handleEditOverlayClick(e){ if(e.target===document.getElementById('edit-modal-overlay')) closeEditModal(); }
+function closeEditModal(){ document.getElementById('edit-modal-overlay').classList.remove('open'); }
 
 function saveEdit(){
-  if(!editingId) return;
-  const r=rows.find(r=>r.id===editingId); if(!r) return;
-  const form=document.getElementById('edit-form');
-  r.name=document.getElementById('ef-name').value.trim();
-  r.category=document.getElementById('ef-category').value.trim();
-  r.price=document.getElementById('ef-price').value.trim();
-  r.link=document.getElementById('ef-link').value.trim();
-  r.note=document.getElementById('ef-note').value.trim();
-  r.priority=form.dataset.priority||r.priority;
-  r.image=form.dataset.image||null;
-  render(); updateStats(); closeEditModal();
+  const r = rows.find(r=>r.id === activeRowId);
+  if(r){
+    r.name = document.getElementById('ed-name').value;
+    r.category = document.getElementById('ed-cat').value;
+    r.price = document.getElementById('ed-price').value;
+    r.link = document.getElementById('ed-link').value;
+    r.note = document.getElementById('ed-note').value;
+    r.image = editingData.image;
+    render(); updateStats(); saveToStore();
+  }
+  closeEditModal();
 }
 
+// Init
 render(); updateStats();
 </script>
 </body>
