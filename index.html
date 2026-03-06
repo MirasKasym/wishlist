@@ -138,7 +138,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   <table class="wishlist-table" id="table-container" style="display:none;">
     <thead>
       <tr>
-        <th></th><th>Фото</th><th>Название</th><th>Категория</th>
+        <th></th><th>Фото</th><th>Название</th>
         <th>Приоритет</th><th>Цена</th><th>Ссылка</th><th></th><th></th>
       </tr>
     </thead>
@@ -232,7 +232,6 @@ const PRIORITY_CLASSES = {high:'p-high',mid:'p-mid',low:'p-low'};
 
 function uid(){ return Math.random().toString(36).slice(2,11); }
 
-// ФУНКЦИЯ ДЛЯ КРАСИВОГО ФОРМАТИРОВАНИЯ ЦЕНЫ
 function formatPriceStr(str) {
   let num = String(str).replace(/[^0-9]/g, '');
   return num ? Number(num).toLocaleString('ru-RU') + ' ₸' : '';
@@ -254,7 +253,7 @@ function saveRowToCloud(row) { wishlistRef.child(row.id).set(row); }
 function removeRowFromCloud(id) { wishlistRef.child(id).remove(); }
 
 function addRow(){
-  const row = {id:uid(), done:false, image:null, name:'', category:'', priority:'mid', price:'', link:'', note:''};
+  const row = {id:uid(), done:false, image:null, name:'', priority:'mid', price:'', link:''};
   saveRowToCloud(row);
 }
 function deleteRow(id){ removeRowFromCloud(id); }
@@ -282,7 +281,6 @@ function render(){
       <td><div class="custom-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'✓':''}</div></td>
       <td><div class="img-slot" onclick="openImageModal('${r.id}')">${r.image?`<img src="${r.image}">`:'+'}</div></td>
       <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','name',this.innerText)">${r.name}</span></td>
-      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','category',this.innerText)">${r.category}</span></td>
       <td><span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span></td>
       <td><span class="editable" contenteditable="true" placeholder="0 ₸" onblur="updateField('${r.id}','price', formatPriceStr(this.innerText))">${r.price || ''}</span></td>
       <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','link',this.innerText)">${r.link}</span></td>
@@ -295,11 +293,27 @@ function render(){
     <div class="card ${r.done?'checked-card':''}">
       <div class="card-top">
         <div class="card-img" onclick="openImageModal('${r.id}')">${r.image?`<img src="${r.image}">`:'+'}</div>
-        <div style="flex:1">
-          <div style="font-weight:600">${r.name || 'Название...'}</div>
-          <div style="font-size:12px;color:var(--soft)">${r.price || '0 ₸'}</div>
+        
+        <div class="card-main" style="flex:1;">
+          <div style="font-weight:600; margin-bottom: 6px;">
+            <span class="editable" contenteditable="true" placeholder="Название..." onblur="updateField('${r.id}','name',this.innerText)">${r.name}</span>
+          </div>
+          <div class="card-meta" style="display:flex; align-items:center; gap:8px; flex-wrap:wrap;">
+            <span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span>
+            <span class="editable" style="font-size:13px; color:var(--mid); font-weight:500;" contenteditable="true" placeholder="0 ₸" onblur="updateField('${r.id}','price', formatPriceStr(this.innerText))">${r.price || ''}</span>
+          </div>
         </div>
-        <button class="action-btn" onclick="openEditModal('${r.id}')">✎</button>
+        
+        <div style="display:flex; flex-direction:column; align-items:flex-end;">
+          <div class="custom-check ${r.done?'done':''}" onclick="toggleDone('${r.id}')">${r.done?'✓':''}</div>
+        </div>
+      </div>
+      
+      <div class="card-bottom" style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; align-items:center;">
+         <div style="display:flex; gap:4px;">
+            <button class="action-btn edit-btn" onclick="openEditModal('${r.id}')">✎</button>
+            <button class="action-btn del-btn" onclick="deleteRow('${r.id}')">✕</button>
+         </div>
       </div>
     </div>
   `).join('');
@@ -388,10 +402,8 @@ function openEditModal(id){
   const r = rows.find(r=>r.id === id); activeRowId = id;
   document.getElementById('edit-form-content').innerHTML = `
     <div class="form-row"><label>Название</label><input class="form-input" id="ed-name" value="${r.name||''}"></div>
-    <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category||''}"></div>
     <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price||''}" placeholder="0 ₸" oninput="this.value = formatPriceStr(this.value)"></div>
     <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link||''}"></div>
-    <div class="form-row"><label>Заметка</label><textarea class="form-input" id="ed-note">${r.note||''}</textarea></div>
   `;
   document.getElementById('edit-modal-overlay').classList.add('open');
 }
@@ -400,10 +412,8 @@ function saveEdit(){
   const r = rows.find(r=>r.id === activeRowId);
   if(r) {
     r.name = document.getElementById('ed-name').value;
-    r.category = document.getElementById('ed-cat').value;
     r.price = document.getElementById('ed-price').value;
     r.link = document.getElementById('ed-link').value;
-    r.note = document.getElementById('ed-note').value;
     saveRowToCloud(r);
   }
   closeEditModal();
