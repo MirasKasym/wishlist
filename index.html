@@ -26,12 +26,19 @@ header h1 em{color:var(--gold);font-style:italic;}
 .controls{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;gap:12px;flex-wrap:wrap;}
 .stats{font-size:13px;color:var(--soft);}
 .stats strong{color:var(--mid);font-weight:500;}
-.btn{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:8px;
-  font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;border:none;}
-.btn-primary{background:var(--dark);color:var(--cream);}
-.btn-primary:hover{background:var(--mid);}
-.btn-ghost{background:transparent;color:var(--mid);border:1px solid var(--border);}
-.btn-ghost:hover{background:var(--warm);}
+
+/* ИСПРАВЛЕННЫЕ КНОПКИ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  height: 44px; padding: 0 20px; border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
+  cursor: pointer; transition: all .2s; border: 1.5px solid transparent;
+}
+.btn-primary { background: var(--dark); color: var(--cream); }
+.btn-primary:hover { background: var(--mid); }
+.btn-ghost { background: transparent; color: var(--mid); border-color: var(--border); }
+.btn-ghost:hover { background: var(--warm); }
+
 .totals-bar{display:flex;justify-content:flex-end;padding:14px 4px 0;font-size:13px;color:var(--mid);}
 .totals-bar .total-label{color:var(--soft);}
 .totals-bar .total-val{font-weight:600;color:var(--dark);}
@@ -57,7 +64,15 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .p-high{background:#fde8e4;color:#c0392b;}
 .p-mid{background:#fef3cd;color:#856404;}
 .p-low{background:#e8f5e9;color:#2e7d32;}
-.action-btn{background:none;border:none;cursor:pointer;font-size:15px;padding:4px 5px;border-radius:4px;transition:all .15s;}
+
+/* ИСПРАВЛЕННЫЕ КНОПКИ ДЕЙСТВИЙ В ТАБЛИЦЕ (Карандаш и Крестик) */
+.action-btn {
+  background: none; border: none; cursor: pointer; font-size: 15px; color: var(--soft);
+  width: 32px; height: 32px; border-radius: 6px; display: inline-flex; 
+  align-items: center; justify-content: center; transition: all .15s; line-height: 1;
+}
+.action-btn:hover { color: var(--dark); background: var(--warm); }
+
 .custom-check{width:18px;height:18px;border:2px solid var(--border);border-radius:4px;cursor:pointer;
   display:inline-flex;align-items:center;justify-content:center;transition:all .2s;background:white;}
 .custom-check.done{background:var(--gold);border-color:var(--gold);color:white;font-size:11px;}
@@ -78,7 +93,16 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .tab{padding:12px 14px;font-size:13px;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;color:var(--soft);}
 .tab.active{color:var(--dark);border-bottom-color:var(--gold);font-weight:600;}
 .modal-body{padding:20px;overflow-y:auto;flex:1;}
-.form-input{padding:10px 14px;border:1.5px solid var(--border);border-radius:8px;outline:none;background:var(--cream);width:100%;margin-bottom:10px;}
+
+/* ИСПРАВЛЕННЫЕ ПОЛЯ ВВОДА (одна высота с кнопками) */
+.form-input, .search-input {
+  height: 44px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; color: var(--dark);
+  background: var(--cream); width: 100%;
+}
+.form-input:focus, .search-input:focus { border-color: var(--gold); background: white; }
+textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
+
 .image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
 .img-result{border-radius:10px;overflow:hidden;cursor:pointer;border:3px solid transparent;aspect-ratio:1;}
 .img-result.selected{border-color:var(--gold);}
@@ -86,7 +110,11 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .edit-form{padding:20px;display:flex;flex-direction:column;gap:15px;}
 .form-row{display:flex;flex-direction:column;gap:5px;}
 .form-row label{font-size:11px;text-transform:uppercase;color:var(--soft);font-weight:600;}
-.modal-footer{padding:12px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+.modal-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
+
+/* ИСПРАВЛЕННЫЙ БЛОК ПОИСКА */
+.modal-search { display: flex; gap: 8px; align-items: center; margin-bottom: 15px; }
+.modal-search .search-input { margin-bottom: 0; flex: 1; }
 
 @media(max-width:640px){
   .wishlist-table{display:none;}
@@ -132,7 +160,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   <div class="modal">
     <div class="modal-header">
       <h2>Выбрать изображение</h2>
-      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;" onclick="closeModal()">✕</button>
+      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--soft)" onclick="closeModal()">✕</button>
     </div>
     <div class="tabs">
       <button class="tab active" id="tab-search" onclick="switchTab('search')">&#128269; Поиск</button>
@@ -141,11 +169,11 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
     </div>
     <div class="modal-body">
       <div id="panel-search">
-        <div style="display:flex;gap:8px;margin-bottom:15px;">
-          <input class="form-input" style="flex:1; margin-bottom:0;" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
+        <div class="modal-search">
+          <input class="search-input" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
           <button class="btn btn-primary" onclick="runSearch()">Найти</button>
         </div>
-        <div id="search-results"></div>
+        <div id="search-results" style="text-align:center; color:var(--soft);">Введите название для поиска</div>
       </div>
       <div id="panel-url" style="display:none;">
         <input type="url" id="url-input" class="form-input" placeholder="https://example.com/image.jpg" oninput="previewUrlImage(this.value)">
@@ -153,7 +181,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
       </div>
       <div id="panel-upload" style="display:none; text-align:center; padding:20px;">
         <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(this)">
-        <button class="btn btn-ghost" onclick="document.getElementById('file-input').click()">📁 Выбрать файл</button>
+        <button class="btn btn-ghost" onclick="document.getElementById('file-input').click()">📁 Выбрать файл на устройстве</button>
         <div id="upload-preview" style="margin-top:15px; display:none;"><img id="upload-preview-img" style="max-height:160px; border-radius:8px;"></div>
       </div>
     </div>
@@ -168,7 +196,7 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
   <div class="modal" style="width:min(500px, 95vw)">
     <div class="modal-header">
       <h2>✎ Редактировать</h2>
-      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;" onclick="closeEditModal()">✕</button>
+      <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--soft)" onclick="closeEditModal()">✕</button>
     </div>
     <div class="edit-form" id="edit-form-content"></div>
     <div class="modal-footer">
@@ -220,39 +248,23 @@ wishlistRef.on('value', (snapshot) => {
   updateStats();
 });
 
-function saveRowToCloud(row) {
-  wishlistRef.child(row.id).set(row);
-}
-
-function removeRowFromCloud(id) {
-  wishlistRef.child(id).remove();
-}
+function saveRowToCloud(row) { wishlistRef.child(row.id).set(row); }
+function removeRowFromCloud(id) { wishlistRef.child(id).remove(); }
 
 // --- УПРАВЛЕНИЕ ДАННЫМИ ---
 function addRow(){
   const row = {id:uid(), done:false, image:null, name:'', category:'', priority:'mid', price:'', link:'', note:''};
   saveRowToCloud(row);
 }
-
 function deleteRow(id){ removeRowFromCloud(id); }
-
 function toggleDone(id){ 
   const r = rows.find(r=>r.id===id); 
-  if(r) {
-    r.done = !r.done; 
-    saveRowToCloud(r);
-  }
+  if(r) { r.done = !r.done; saveRowToCloud(r); }
 }
-
-// Сохраняем текст в облако только когда пользователь убирает курсор с поля (onblur)
 function updateField(id, field, val){
   const r = rows.find(r=>r.id===id); 
-  if(r) {
-    r[field] = val;
-    saveRowToCloud(r);
-  }
+  if(r) { r[field] = val; saveRowToCloud(r); }
 }
-
 function cyclePriority(id){
   const r = rows.find(r=>r.id===id); if(!r) return;
   r.priority = PRIORITIES[(PRIORITIES.indexOf(r.priority)+1)%PRIORITIES.length];
@@ -301,8 +313,14 @@ function updateStats(){
 }
 
 // --- ФОТО И ПОИСК ---
-function openImageModal(id){ activeRowId = id; selectedImageUrl = null; document.getElementById('modal-overlay').classList.add('open'); switchTab('search'); }
+function openImageModal(id){ 
+  activeRowId = id; selectedImageUrl = null; 
+  document.getElementById('modal-overlay').classList.add('open'); 
+  document.getElementById('search-results').innerHTML = 'Введите название для поиска';
+  switchTab('search'); 
+}
 function closeModal(){ document.getElementById('modal-overlay').classList.remove('open'); }
+
 function switchTab(tab){
   activeTab = tab;
   ['search','url','upload'].forEach(t=>{
@@ -311,19 +329,47 @@ function switchTab(tab){
   });
 }
 
+// УМНЫЙ ПОИСК С ОБРАБОТКОЙ ОШИБОК
 async function runSearch(){
-  const q = document.getElementById('search-input').value;
-  const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}&searchType=image&num=9`);
-  const data = await res.json();
-  document.getElementById('search-results').innerHTML = '<div class="image-grid">' + (data.items||[]).map(i=>`<div class="img-result" onclick="selectImg(this,'${i.link}')"><img src="${i.link}"></div>`).join('') + '</div>';
+  const q = document.getElementById('search-input').value.trim();
+  if(!q) return;
+  
+  const container = document.getElementById('search-results');
+  container.innerHTML = '<div style="padding: 30px; color: var(--gold);">Загрузка...</div>';
+  
+  try {
+    const res = await fetch(`https://www.googleapis.com/customsearch/v1?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${encodeURIComponent(q)}&searchType=image&num=9`);
+    const data = await res.json();
+    
+    if (data.error) {
+      container.innerHTML = `<div style="color: var(--accent); padding: 20px;">Ошибка: ${data.error.message} <br><br><b>Лимит Google закончился (100 запросов).</b> Загрузите фото с устройства.</div>`;
+      return;
+    }
+    if (!data.items || data.items.length === 0) {
+      container.innerHTML = '<div style="padding: 20px;">Ничего не найдено.</div>';
+      return;
+    }
+    
+    container.innerHTML = '<div class="image-grid">' + data.items.map(i=>`<div class="img-result" onclick="selectImg(this,'${i.link}')"><img src="${i.link}"></div>`).join('') + '</div>';
+    
+  } catch(error) {
+    container.innerHTML = '<div style="color: var(--accent); padding: 20px;">Ошибка соединения. Проверьте интернет.</div>';
+  }
 }
 
 function selectImg(el, url){ document.querySelectorAll('.img-result').forEach(i=>i.classList.remove('selected')); el.classList.add('selected'); selectedImageUrl = url; }
 function previewUrlImage(url){ selectedImageUrl = url; document.getElementById('url-preview-img').src = url; document.getElementById('url-preview').style.display='block'; }
+
 function handleFileUpload(input){
+  const file = input.files[0];
+  if(!file) return;
   const reader = new FileReader();
-  reader.onload = (e) => { selectedImageUrl = e.target.result; document.getElementById('upload-preview-img').src = e.target.result; document.getElementById('upload-preview').style.display='block'; };
-  reader.readAsDataURL(input.files[0]);
+  reader.onload = (e) => { 
+    selectedImageUrl = e.target.result; 
+    document.getElementById('upload-preview-img').src = e.target.result; 
+    document.getElementById('upload-preview').style.display='block'; 
+  };
+  reader.readAsDataURL(file);
 }
 
 function applyImage(){ 
@@ -345,7 +391,7 @@ function openEditModal(id){
     <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category||''}"></div>
     <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price||''}"></div>
     <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link||''}"></div>
-    <div class="form-row"><label>Заметка</label><textarea class="form-input" id="ed-note" style="height:60px">${r.note||''}</textarea></div>
+    <div class="form-row"><label>Заметка</label><textarea class="form-input" id="ed-note">${r.note||''}</textarea></div>
   `;
   document.getElementById('edit-modal-overlay').classList.add('open');
 }
