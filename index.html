@@ -27,17 +27,28 @@ header h1 em{color:var(--gold);font-style:italic;}
 .stats{font-size:13px;color:var(--soft);}
 .stats strong{color:var(--mid);font-weight:500;}
 
-/* ИСПРАВЛЕННЫЕ КНОПКИ */
+/* ИДЕАЛЬНО РОВНЫЕ КНОПКИ И ПОЛЯ */
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 7px;
   height: 44px; padding: 0 20px; border-radius: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500;
-  cursor: pointer; transition: all .2s; border: 1.5px solid transparent;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500;
+  cursor: pointer; transition: all .2s; border: 1.5px solid transparent; box-sizing: border-box;
 }
 .btn-primary { background: var(--dark); color: var(--cream); }
 .btn-primary:hover { background: var(--mid); }
 .btn-ghost { background: transparent; color: var(--mid); border-color: var(--border); }
 .btn-ghost:hover { background: var(--warm); }
+
+.form-input, .search-input {
+  height: 44px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px;
+  font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; color: var(--dark);
+  background: var(--cream); width: 100%; box-sizing: border-box;
+}
+.form-input:focus, .search-input:focus { border-color: var(--gold); background: white; }
+textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
+
+.modal-search { display: flex; gap: 8px; align-items: center; padding: 14px 20px; border-bottom: 1px solid var(--border); }
+.modal-search .search-input { margin-bottom: 0; flex: 1; }
 
 .totals-bar{display:flex;justify-content:flex-end;padding:14px 4px 0;font-size:13px;color:var(--mid);}
 .totals-bar .total-label{color:var(--soft);}
@@ -65,7 +76,6 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .p-mid{background:#fef3cd;color:#856404;}
 .p-low{background:#e8f5e9;color:#2e7d32;}
 
-/* ИСПРАВЛЕННЫЕ КНОПКИ ДЕЙСТВИЙ В ТАБЛИЦЕ (Карандаш и Крестик) */
 .action-btn {
   background: none; border: none; cursor: pointer; font-size: 15px; color: var(--soft);
   width: 32px; height: 32px; border-radius: 6px; display: inline-flex; 
@@ -92,18 +102,9 @@ td{padding:14px 16px;vertical-align:middle;font-size:14px;}
 .tabs{display:flex;padding:0 20px;gap:4px;border-bottom:1px solid var(--border);}
 .tab{padding:12px 14px;font-size:13px;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;color:var(--soft);}
 .tab.active{color:var(--dark);border-bottom-color:var(--gold);font-weight:600;}
-.modal-body{padding:20px;overflow-y:auto;flex:1;}
+.modal-body{padding:0;overflow-y:auto;flex:1;}
 
-/* ИСПРАВЛЕННЫЕ ПОЛЯ ВВОДА (одна высота с кнопками) */
-.form-input, .search-input {
-  height: 44px; padding: 0 14px; border: 1.5px solid var(--border); border-radius: 8px;
-  font-family: 'DM Sans', sans-serif; font-size: 14px; outline: none; color: var(--dark);
-  background: var(--cream); width: 100%;
-}
-.form-input:focus, .search-input:focus { border-color: var(--gold); background: white; }
-textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
-
-.image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;}
+.image-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px; padding: 20px;}
 .img-result{border-radius:10px;overflow:hidden;cursor:pointer;border:3px solid transparent;aspect-ratio:1;}
 .img-result.selected{border-color:var(--gold);}
 .img-result img{width:100%;height:100%;object-fit:cover;}
@@ -112,15 +113,10 @@ textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
 .form-row label{font-size:11px;text-transform:uppercase;color:var(--soft);font-weight:600;}
 .modal-footer{padding:16px 20px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px;}
 
-/* ИСПРАВЛЕННЫЙ БЛОК ПОИСКА */
-.modal-search { display: flex; gap: 8px; align-items: center; margin-bottom: 15px; }
-.modal-search .search-input { margin-bottom: 0; flex: 1; }
-
 @media(max-width:640px){
   .wishlist-table{display:none;}
   .card-list{display:flex;}
 }
-
 #loader { text-align:center; padding: 40px; color: var(--soft); font-size: 14px; }
 </style>
 </head>
@@ -159,7 +155,7 @@ textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
 <div class="modal-overlay" id="modal-overlay" onclick="if(event.target===this)closeModal()">
   <div class="modal">
     <div class="modal-header">
-      <h2>Выбрать изображение</h2>
+      <h2 style="font-family:'Playfair Display',serif; font-size:1.15rem;">Выбрать изображение</h2>
       <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--soft)" onclick="closeModal()">✕</button>
     </div>
     <div class="tabs">
@@ -173,13 +169,13 @@ textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
           <input class="search-input" id="search-input" placeholder="Название товара..." onkeydown="if(event.key==='Enter')runSearch()">
           <button class="btn btn-primary" onclick="runSearch()">Найти</button>
         </div>
-        <div id="search-results" style="text-align:center; color:var(--soft);">Введите название для поиска</div>
+        <div id="search-results" style="text-align:center; color:var(--soft); padding:20px;">Введите название для поиска</div>
       </div>
-      <div id="panel-url" style="display:none;">
+      <div id="panel-url" style="display:none; padding:20px;">
         <input type="url" id="url-input" class="form-input" placeholder="https://example.com/image.jpg" oninput="previewUrlImage(this.value)">
         <div id="url-preview" style="margin-top:15px; text-align:center; display:none;"><img id="url-preview-img" style="max-height:160px; border-radius:8px;"></div>
       </div>
-      <div id="panel-upload" style="display:none; text-align:center; padding:20px;">
+      <div id="panel-upload" style="display:none; text-align:center; padding:30px 20px;">
         <input type="file" id="file-input" accept="image/*" style="display:none" onchange="handleFileUpload(this)">
         <button class="btn btn-ghost" onclick="document.getElementById('file-input').click()">📁 Выбрать файл на устройстве</button>
         <div id="upload-preview" style="margin-top:15px; display:none;"><img id="upload-preview-img" style="max-height:160px; border-radius:8px;"></div>
@@ -195,7 +191,7 @@ textarea.form-input { height: 80px; padding: 10px 14px; resize: vertical; }
 <div class="modal-overlay" id="edit-modal-overlay" onclick="if(event.target===this)closeEditModal()">
   <div class="modal" style="width:min(500px, 95vw)">
     <div class="modal-header">
-      <h2>✎ Редактировать</h2>
+      <h2 style="font-family:'Playfair Display',serif; font-size:1.15rem;">✎ Редактировать</h2>
       <button class="modal-close" style="border:none;background:none;font-size:20px;cursor:pointer;color:var(--soft)" onclick="closeEditModal()">✕</button>
     </div>
     <div class="edit-form" id="edit-form-content"></div>
@@ -236,6 +232,12 @@ const PRIORITY_CLASSES = {high:'p-high',mid:'p-mid',low:'p-low'};
 
 function uid(){ return Math.random().toString(36).slice(2,11); }
 
+// ФУНКЦИЯ ДЛЯ КРАСИВОГО ФОРМАТИРОВАНИЯ ЦЕНЫ
+function formatPriceStr(str) {
+  let num = String(str).replace(/[^0-9]/g, '');
+  return num ? Number(num).toLocaleString('ru-RU') + ' ₸' : '';
+}
+
 // --- СИНХРОНИЗАЦИЯ С ОБЛАКОМ ---
 wishlistRef.on('value', (snapshot) => {
   document.getElementById('loader').style.display = 'none';
@@ -251,7 +253,6 @@ wishlistRef.on('value', (snapshot) => {
 function saveRowToCloud(row) { wishlistRef.child(row.id).set(row); }
 function removeRowFromCloud(id) { wishlistRef.child(id).remove(); }
 
-// --- УПРАВЛЕНИЕ ДАННЫМИ ---
 function addRow(){
   const row = {id:uid(), done:false, image:null, name:'', category:'', priority:'mid', price:'', link:'', note:''};
   saveRowToCloud(row);
@@ -283,7 +284,7 @@ function render(){
       <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','name',this.innerText)">${r.name}</span></td>
       <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','category',this.innerText)">${r.category}</span></td>
       <td><span class="priority-badge ${PRIORITY_CLASSES[r.priority]}" onclick="cyclePriority('${r.id}')">${PRIORITY_LABELS[r.priority]}</span></td>
-      <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','price',this.innerText)">${r.price}</span></td>
+      <td><span class="editable" contenteditable="true" placeholder="0 ₸" onblur="updateField('${r.id}','price', formatPriceStr(this.innerText))">${r.price || ''}</span></td>
       <td><span class="editable" contenteditable="true" onblur="updateField('${r.id}','link',this.innerText)">${r.link}</span></td>
       <td><button class="action-btn" onclick="openEditModal('${r.id}')">✎</button></td>
       <td><button class="action-btn" onclick="deleteRow('${r.id}')">✕</button></td>
@@ -296,7 +297,7 @@ function render(){
         <div class="card-img" onclick="openImageModal('${r.id}')">${r.image?`<img src="${r.image}">`:'+'}</div>
         <div style="flex:1">
           <div style="font-weight:600">${r.name || 'Название...'}</div>
-          <div style="font-size:12px;color:var(--soft)">${r.price || '0'} ₽</div>
+          <div style="font-size:12px;color:var(--soft)">${r.price || '0 ₸'}</div>
         </div>
         <button class="action-btn" onclick="openEditModal('${r.id}')">✎</button>
       </div>
@@ -309,7 +310,7 @@ function updateStats(){
   document.getElementById('done-items').textContent = rows.filter(r=>r.done).length;
   let total = 0;
   rows.forEach(r=>{ let p = parseFloat(String(r.price).replace(/[^0-9.]/g,'')); if(!isNaN(p)) total+=p; });
-  document.getElementById('price-total').textContent = total > 0 ? total.toLocaleString() + ' ₽' : '—';
+  document.getElementById('price-total').textContent = total > 0 ? total.toLocaleString('ru-RU') + ' ₸' : '—';
 }
 
 // --- ФОТО И ПОИСК ---
@@ -329,7 +330,6 @@ function switchTab(tab){
   });
 }
 
-// УМНЫЙ ПОИСК С ОБРАБОТКОЙ ОШИБОК
 async function runSearch(){
   const q = document.getElementById('search-input').value.trim();
   if(!q) return;
@@ -342,7 +342,7 @@ async function runSearch(){
     const data = await res.json();
     
     if (data.error) {
-      container.innerHTML = `<div style="color: var(--accent); padding: 20px;">Ошибка: ${data.error.message} <br><br><b>Лимит Google закончился (100 запросов).</b> Загрузите фото с устройства.</div>`;
+      container.innerHTML = `<div style="color: var(--accent); padding: 20px;">Ошибка: ${data.error.message} <br><br><b>Лимит Google закончился.</b> Воспользуйтесь вкладкой "Загрузить".</div>`;
       return;
     }
     if (!data.items || data.items.length === 0) {
@@ -353,7 +353,7 @@ async function runSearch(){
     container.innerHTML = '<div class="image-grid">' + data.items.map(i=>`<div class="img-result" onclick="selectImg(this,'${i.link}')"><img src="${i.link}"></div>`).join('') + '</div>';
     
   } catch(error) {
-    container.innerHTML = '<div style="color: var(--accent); padding: 20px;">Ошибка соединения. Проверьте интернет.</div>';
+    container.innerHTML = '<div style="color: var(--accent); padding: 20px;">Ошибка соединения.</div>';
   }
 }
 
@@ -389,7 +389,7 @@ function openEditModal(id){
   document.getElementById('edit-form-content').innerHTML = `
     <div class="form-row"><label>Название</label><input class="form-input" id="ed-name" value="${r.name||''}"></div>
     <div class="form-row"><label>Категория</label><input class="form-input" id="ed-cat" value="${r.category||''}"></div>
-    <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price||''}"></div>
+    <div class="form-row"><label>Цена</label><input class="form-input" id="ed-price" value="${r.price||''}" placeholder="0 ₸" oninput="this.value = formatPriceStr(this.value)"></div>
     <div class="form-row"><label>Ссылка</label><input class="form-input" id="ed-link" value="${r.link||''}"></div>
     <div class="form-row"><label>Заметка</label><textarea class="form-input" id="ed-note">${r.note||''}</textarea></div>
   `;
